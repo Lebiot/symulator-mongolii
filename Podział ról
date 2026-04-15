@@ -1,0 +1,5 @@
+Podział ról 
+Osoba 1 Lead / Mapasiatka hexów, generowanie mapy, pathfinding
+Osoba 2 Jednostki / WalkaUnit.gd, walka, ruch jednostek
+Osoba 3 UI / UXpasek zasobów, panele, MainMenu
+Osoba 4 Gospodarka / AIzasoby, miasta, prosty AI

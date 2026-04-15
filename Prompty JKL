@@ -1,0 +1,321 @@
+(Skończone wrzucanie na 2A prompt włącznie)
+🚀 GLOBAL BASE PROMPT (use at the start of session)
+
+Wklej to NA SAMYM POCZĄTKU:
+
+We are building a small 2D turn-based strategy game in Godot 4 using GDScript.
+
+Game concept:
+- Hex grid (flat-top)
+- Player is a Mongol Khan leading a nomadic tribe
+- Mechanics:
+  - unit movement
+  - territory control
+  - simple economy (food, horses, gold)
+  - turn-based system
+
+Constraints:
+- This is a small school project
+- Keep code simple, readable, and modular
+- Do NOT overengineer
+- Avoid complex design patterns
+- Prefer clarity over flexibility
+
+Always:
+- explain briefly
+- provide working GDScript
+- keep structure consistent
+🧱 STAGE 0 — PROJECT SETUP
+Create a clean Godot 4 project structure.
+
+Requirements:
+- folders:
+  - scenes/
+  - scripts/
+  - ui/
+  - assets/
+- naming conventions for files and scripts
+- main scene: Main.tscn
+
+Architecture:
+- GameManager (turn system)
+- MapManager (grid + tiles)
+- UIManager (HUD)
+
+Output:
+- folder tree
+- explanation of responsibilities
+- minimal example scripts
+🧠 STAGE 1 — HEX SYSTEM
+1A — Hex math
+Create a HexUtils script for flat-top hex grid.
+
+Requirements:
+- axial coordinates (q, r)
+- functions:
+  - hex_to_world(q, r)
+  - world_to_hex(position)
+  - get_neighbors(q, r)
+
+Include:
+- clear math explanation (short)
+- reusable static functions
+- example usage
+1B — Map generation
+Create a MapManager that generates a hex grid.
+
+Requirements:
+- size: 20x20
+- use a HexTile scene
+- store tiles in Dictionary using (q, r) as key
+- random terrain:
+  - steppe (70%)
+  - mountains (15%)
+  - river (15%)
+
+Features:
+- use random seed
+- allow regeneration
+
+Output:
+- full GDScript
+- scene structure
+1C — Tile interaction
+Add mouse interaction with hex tiles.
+
+Requirements:
+- click selects a tile
+- only one tile selected at a time
+- highlight selected tile
+
+Edge cases:
+- clicking outside grid
+- rapid clicking
+
+Use:
+- _input or _unhandled_input
+- simple detection (no complex physics)
+🐎 STAGE 2 — UNITS
+2A — Unit class
+Create a Unit class.
+
+Properties:
+- movement_points
+- max_movement
+- owner
+- current_hex
+
+Methods:
+- move_to(hex)
+- can_move_to(hex)
+- reset_turn()
+
+Keep logic simple and readable.
+2B — Movement rules
+Implement unit movement on hex grid.
+
+Rules:
+- can move only to neighboring hexes
+- cannot enter mountains
+- movement cost = 1
+
+Include:
+- validation before movement
+- update world position
+2C — Movement range highlight
+Show available movement range.
+
+Requirements:
+- highlight all reachable hexes
+- use movement_points
+- color: green
+
+Implementation:
+- BFS or flood fill
+- avoid performance issues
+🔁 STAGE 3 — TURN SYSTEM
+3A — GameManager
+Create GameManager as an autoload singleton.
+
+Responsibilities:
+- track current turn
+- track active player
+- manage turn transitions
+
+Signals:
+- turn_started
+- turn_ended
+3B — End Turn button
+Add End Turn button to UI.
+
+Behavior:
+- ends player turn
+- triggers GameManager
+- resets unit movement
+
+Constraints:
+- prevent button spam
+3C — Turn flow
+Define turn order:
+
+On turn end:
+1. calculate resources
+2. reset units
+3. switch player
+
+Provide clean and readable flow.
+🐑 STAGE 4 — ECONOMY
+4A — Player class
+Create Player class.
+
+Resources:
+- food
+- horses
+- gold
+
+Include:
+- add_resource(type, amount)
+- prevent negative values
+4B — Resource generation
+Implement resource generation.
+
+Rules:
+- steppe → food
+- river → gold
+- horses → random chance
+
+Run every turn.
+
+Output:
+- calculate_income()
+- integration with GameManager
+4C — UI
+Create simple resource UI.
+
+Elements:
+- food label
+- gold label
+- horses label
+
+Requirements:
+- update via signals
+- clean layout
+🏴 STAGE 5 — TERRITORY CONTROL
+5A — Ownership
+Add ownership system to HexTile.
+
+Rules:
+- tile can have owner (player or null)
+- visual color changes based on owner
+
+Include setter function.
+5B — Capture mechanic
+Implement tile capture system.
+
+Rules:
+- unit must stay 1 full turn
+- leaving tile cancels capture
+
+Include:
+- turn counter per tile
+- capture() function
+⚔️ STAGE 6 — COMBAT (OPTIONAL BUT GOOD FOR GRADE)
+Add simple combat system.
+
+Rules:
+- entering enemy tile triggers combat
+- outcome = random + horse bonus
+
+Include:
+- resolve_combat(attacker, defender)
+- remove defeated unit
+
+Keep it minimal.
+🤖 STAGE 7 — AI
+7A — Basic AI
+Create a simple AI player.
+
+Behavior:
+- move randomly
+- try to capture neutral tiles
+
+Function:
+- take_turn()
+7B — Improved AI
+Improve AI decision making.
+
+Priorities:
+1. capture neutral tiles
+2. attack weaker enemies
+3. otherwise random move
+
+Use simple scoring system.
+🎨 STAGE 8 — UI / UX
+8A — HUD
+Create HUD.
+
+Show:
+- turn number
+- resources
+- selected unit info
+
+Organize using UIManager.
+8B — Tooltip
+Add tooltip system.
+
+On hover:
+- terrain type
+- owner
+- bonus
+
+Keep implementation lightweight.
+✨ STAGE 9 — POLISH
+9A — Animations
+Add simple animations:
+
+- unit movement (lerp or tween)
+- tile highlight fade
+
+Keep it smooth but simple.
+9B — Audio
+Add basic audio system.
+
+Sounds:
+- click
+- movement
+- end turn
+
+Create AudioManager.
+💾 STAGE 10 — SAVE / LOAD
+Implement save/load system.
+
+Requirements:
+- JSON format
+- save:
+  - map
+  - units
+  - player resources
+
+Include:
+- save_game()
+- load_game()
+🧪 STAGE 11 — DEBUG TOOLS
+Add debug tools.
+
+Features:
+- show hex coordinates
+- add resources button
+- regenerate map
+
+Create simple debug panel.
+🧠 SUPER IMPORTANT “FIX PROMPT”
+
+Jak coś się psuje, wklej:
+
+Fix the existing system.
+
+Do NOT rewrite everything.
+Do NOT add new architecture.
+
+Keep current structure and improve only what is broken.
+Explain changes clearly.
